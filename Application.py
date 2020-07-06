@@ -1,7 +1,8 @@
 from core.Core import Core
-from services.CommandInterpreterService import CommandInterpreterService
-from services.LightManagerService import LightManagerService
-from services.TerminalInputService import TerminalInputService
+from services.commandinterpreterservice.CommandInterpreterService import CommandInterpreterService
+from services.lightmanagementservice.LightManagerService import LightManagerService
+from services.terminalinputservice.TerminalInputService import TerminalInputService
+from services.wakeonlanmanagerservice.WakeOnLanManagerService import WakeOnLanManagerService
 
 
 class Application:
@@ -9,16 +10,11 @@ class Application:
     def __init__(self):
         self.__core = Core()
 
-        self.__lightManagementService = LightManagerService(self.__core)
-        self.__core.serviceManager.addService(self.__lightManagementService)
-
-        self.__terminalInputService = TerminalInputService(self.__core)
-        self.__core.serviceManager.addService(self.__terminalInputService)
-
-        self.__commandInterpreterService = CommandInterpreterService(self.__core)
-        self.__core.serviceManager.addService(self.__commandInterpreterService)
+        self.__core.serviceManager.addService(LightManagerService(self.__core))
+        self.__core.serviceManager.addService(TerminalInputService(self.__core))
+        self.__core.serviceManager.addService(CommandInterpreterService(self.__core))
+        self.__core.serviceManager.addService(WakeOnLanManagerService(self.__core))
 
         self.__core.serviceManager.startServices()
-
 
 app = Application()

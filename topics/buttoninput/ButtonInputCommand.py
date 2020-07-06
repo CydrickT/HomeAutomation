@@ -1,9 +1,9 @@
 from typing import Final
 
-from topics.ButtonInputType import ButtonInputType
+from topics.buttoninput.ButtonInputType import ButtonInputType
 
 
-class ButtonInput:
+class ButtonInputCommand:
 
     def __init__(self, buttoninputype=ButtonInputType.UpShort):
         self.buttonInputType: Final = buttoninputype

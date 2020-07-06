@@ -36,8 +36,7 @@ groupName = config['PhilipsHue']['GroupName']
 daytimeSceneName = config['PhilipsHue']['DaytimeSceneName']
 nighttimeSceneName = config['PhilipsHue']['NighttimeSceneName']
 musicPath = config['Music']['MusicPath']
-buttonUp = 10
-buttonDown = 12
+
 
 MUSIC_NIGHTTIME = 1
 TRUE_NIGHTTIME = 2

@@ -1,4 +1,5 @@
-# Secret stuff
+# Service-specific configuration
+*.config
 *.secret
 
 # Byte-compiled / optimized / DLL files
