@@ -5,7 +5,7 @@ from topics.buttoninput.ButtonInputCommand import ButtonInputCommand
 from topics.buttoninput.ButtonInputType import ButtonInputType
 from topics.generalstate.GeneralStateChangeNotification import GeneralStateChangeNotification
 from topics.generalstate.GeneralStateType import GeneralStateType
-from topics.modifierstate.ModifierStateChangedNotification import ModifierStateChangedNotification
+from topics.modifierstate.ModifierStateChangeNotification import ModifierStateChangeNotification
 from topics.modifierstate.ModifierType import ModifierType
 
 
@@ -23,19 +23,25 @@ class CommandInterpreterService(Service):
     # 2- True sleep: Close music
     # 3- Wakeup: Turn on lights, Change lights scene, wake computer up
     def handleButtonInput(self, buttonInput):
-        if buttonInput.buttoninputype == ButtonInputType.UpLong:
+        self.core.logger.log('Previous state: ' + str(self.state))
+        if buttonInput.button_input_type == ButtonInputType.UpLong:
             self.state = self.getForwardMovingState(self.state)
+            self.core.logger.log('Next state: ' + str(self.state))
             self.core.dataRouter.publish(GeneralStateChangeNotification(self.state))
-        elif buttonInput.buttoninputype == ButtonInputType.DownLong:
+        elif buttonInput.button_input_type == ButtonInputType.DownLong:
             self.state = self.getBackwardMovingState(self.state)
+            self.core.logger.log('Next state: ' + str(self.state))
             self.core.dataRouter.publish(GeneralStateChangeNotification(self.state))
-        elif buttonInput.buttoninputype == ButtonInputType.UpDownLong:
+        elif buttonInput.button_input_type == ButtonInputType.UpDownLong:
             self.state = GeneralStateType.NightEmergency
+            self.core.logger.log('Next state: ' + str(self.state))
             self.core.dataRouter.publish(GeneralStateChangeNotification(self.state))
-        elif buttonInput.buttoninputype == ButtonInputType.UpShort:
-            self.dataRouter.publish(ModifierStateChangedNotification(ModifierType.Increase))
-        elif buttonInput.buttoninputype == ButtonInputType.DownShort:
-            self.dataRouter.publish(ModifierStateChangedNotification(ModifierType.Decrease))
+        elif buttonInput.button_input_type == ButtonInputType.UpShort:
+            self.core.logger.log('Modifier Up pressed')
+            self.dataRouter.publish(ModifierStateChangeNotification(ModifierType.Increase))
+        elif buttonInput.button_input_type == ButtonInputType.DownShort:
+            self.core.logger.log('Modifier Down pressed')
+            self.dataRouter.publish(ModifierStateChangeNotification(ModifierType.Decrease))
 
     def getForwardMovingState(self, previousState):
         if previousState == GeneralStateType.GetOutOfBed:

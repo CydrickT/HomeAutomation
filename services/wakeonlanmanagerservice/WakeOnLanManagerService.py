@@ -8,6 +8,7 @@ import socket
 from topics.generalstate.GeneralStateChangeNotification import GeneralStateChangeNotification
 from topics.generalstate.GeneralStateType import GeneralStateType
 
+
 class WakeOnLanManagerService(Service):
 
     def __init__(self, core):

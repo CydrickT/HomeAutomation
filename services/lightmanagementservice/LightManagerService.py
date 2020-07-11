@@ -1,11 +1,37 @@
+import configparser
 import json
 
 import requests
 
 from core.Service import Service
+from topics.generalstate.GeneralStateChangeNotification import GeneralStateChangeNotification
+from topics.generalstate.GeneralStateType import GeneralStateType
 
 
 class LightManagerService(Service):
+
+    def __init__(self, core):
+        config = configparser.ConfigParser()
+        config.read('LightManagerService.config')
+        self.hue_bridge_IP = json.loads(config['ServiceSpecific']['HueBridgeIp'])
+        self.hue_bridge_username = json.loads(config['ServiceSpecific']['HueBridgeUsername'])
+        self.lights_group_name = json.loads(config['ServiceSpecific']['GroupName'])
+        self.daytime_scene_name = json.loads(config['ServiceSpecific']['DaytimeSceneName'])
+        self.nighttime_scene_name = json.loads(config['ServiceSpecific']['NighttimeSceneName'])
+
+    def initialize(self):
+        self.core.dataRouter.subscribe(GeneralStateChangeNotification(), self.handleStateChangeNotification)
+
+    def handleStateChangeNotification(self, state_change_notification):
+        if state_change_notification.general_state_type == GeneralStateType.SleepPreparation:
+            groupId = self.getGroupIdFromGroupName(self.hue_bridge_IP, self.hue_bridge_username, self.lights_group_name)
+            self.turnOnOffGroup(self.hue_bridge_IP, self.hue_bridge_username, groupId, False)
+        elif state_change_notification.general_state_type == GeneralStateType.GetOutOfBed or state_change_notification.general_state_type == GeneralStateType.NightEmergency:
+            groupId = self.getGroupIdFromGroupName(self.hue_bridge_IP, self.hue_bridge_username, self.lights_group_name)
+            self.turnOnOffGroup(self.hue_bridge_IP, self.hue_bridge_username, groupId, True)
+
+            sceneId = self.getSceneIdByName(self.hue_bridge_IP, self.hue_bridge_username, self.daytime_scene_name)
+            self.setSceneInGroup(self.hue_bridge_IP, self.hue_bridge_username, groupId, sceneId)
 
     def isAllOnInGroup(self, ip, username, groupId):
         group = self.apiGet(ip, username, 'groups/' + str(groupId))
@@ -41,8 +67,7 @@ class LightManagerService(Service):
         response = self.apiPut(ip, username, 'groups/' + groupId + '/action', content)
 
 
-    def setSceneInGroup(self, ip, username, groupId, sceneName):
-        sceneId = self.getSceneIdByName(ip, username, sceneName)
+    def setSceneInGroup(self, ip, username, groupId, sceneId):
         content = {'scene': sceneId}
         response = self.apiPut(ip, username, 'groups/' + groupId + '/action', content)
 
