@@ -16,7 +16,7 @@ class CommandInterpreterService(Service):
         self.state = GeneralStateType.GetOutOfBed
 
     def initialize(self):
-        self.core.dataRouter.subscribe(ButtonInputCommand(), self.handleButtonInput)
+        self.core.dataRouter.subscribe(ButtonInputCommand, self.handleButtonInput)
 
     # States:
     # 1- Going to sleep: Stop lights, start music
@@ -38,10 +38,10 @@ class CommandInterpreterService(Service):
             self.core.dataRouter.publish(GeneralStateChangeNotification(self.state))
         elif buttonInput.button_input_type == ButtonInputType.UpShort:
             self.core.logger.log('Modifier Up pressed')
-            self.dataRouter.publish(ModifierStateChangeNotification(ModifierType.Increase))
+            self.core.dataRouter.publish(ModifierStateChangeNotification(ModifierType.Increase))
         elif buttonInput.button_input_type == ButtonInputType.DownShort:
             self.core.logger.log('Modifier Down pressed')
-            self.dataRouter.publish(ModifierStateChangeNotification(ModifierType.Decrease))
+            self.core.dataRouter.publish(ModifierStateChangeNotification(ModifierType.Decrease))
 
     def getForwardMovingState(self, previousState):
         if previousState == GeneralStateType.GetOutOfBed:

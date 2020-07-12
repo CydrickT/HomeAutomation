@@ -27,6 +27,6 @@ class TerminalInputService(Service):
                 button_input_type = ButtonInputType.UpDownLong
 
             if button_input_type is None:
-                self.core.logger.log('Command ' + button_input_type + ' is invalid.')
+                self.core.logger.log('Command ' + str(button_input_type) + ' is invalid.')
             else:
                 self.core.dataRouter.publish(ButtonInputCommand(button_input_type))

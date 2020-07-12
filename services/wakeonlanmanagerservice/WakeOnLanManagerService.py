@@ -18,7 +18,7 @@ class WakeOnLanManagerService(Service):
         self.wakeOnLanPort = int(config['ServiceSpecific']['wakeOnLanPort'])
 
     def initialize(self):
-        self.core.dataRouter.subscribe(GeneralStateChangeNotification(), self.handleStateChangeNotification)
+        self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 
     def handleStateChangeNotification(self, stateChangeNotification):
         if stateChangeNotification == GeneralStateType.GetOutOfBed:

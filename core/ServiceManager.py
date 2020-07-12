@@ -4,7 +4,7 @@ from core.Service import Service
 
 
 class ServiceManager:
-    def __init__(self):
+    def __init__(self, config):
         self.services = []
     
     def addService(self, service):

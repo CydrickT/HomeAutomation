@@ -20,7 +20,7 @@ class LightManagerService(Service):
         self.nighttime_scene_name = json.loads(config['ServiceSpecific']['NighttimeSceneName'])
 
     def initialize(self):
-        self.core.dataRouter.subscribe(GeneralStateChangeNotification(), self.handleStateChangeNotification)
+        self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 
     def handleStateChangeNotification(self, state_change_notification):
         if state_change_notification.general_state_type == GeneralStateType.SleepPreparation:
