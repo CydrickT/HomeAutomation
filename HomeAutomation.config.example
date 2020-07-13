@@ -18,6 +18,6 @@ VolumeInitialPercent=0.3
 
 [terminal=services.terminalinputservice.TerminalInputService.TerminalInputService]
 
-#[wol=services.wakeonlanmanagerservice.WakeOnLanManagerService.WakeOnLanManagerService]
-#computersToWake=[{'macAddressToWake':'AA:BB:CC:DD:EE:FF', 'broadcastAddress':'192.168.1.255'}]
-#wakeOnLanPort=9
+[wol=services.wakeonlanmanagerservice.WakeOnLanManagerService.WakeOnLanManagerService]
+computersToWake=[{"macAddressToWake":"AA:BB:CC:DD:EE:FF", "broadcastAddress":"192.168.1.255"}]
+wakeOnLanPort=9
