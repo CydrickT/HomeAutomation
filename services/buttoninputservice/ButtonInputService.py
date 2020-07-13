@@ -8,15 +8,10 @@ from core.Service import Service
 
 class ButtonInputService(Service):
 
-
-    def __init__(self, core):
-        self.core: Final = core
-        config = configparser.ConfigParser()
-        config.read('ButtonInputService.config')
-        self.button_up_gpio_id = config['ServiceSpecific']['ButtonUpGpioId']
-        self.button_down_gpio_id = config['ServiceSpecific']['ButtonDownGpioId']
-
     def initialize(self):
+        self.button_up_gpio_id = self.config['ButtonUpGpioId']
+        self.button_down_gpio_id = self.config['ButtonDownGpioId']
+
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.button_up_gpio_id, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.button_down_gpio_id, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)

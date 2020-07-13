@@ -11,13 +11,10 @@ from topics.generalstate.GeneralStateType import GeneralStateType
 
 class WakeOnLanManagerService(Service):
 
-    def __init__(self, core):
-        config = configparser.ConfigParser()
-        config.read('WakeOnLanManagerService.config')
-        self.computersToWake = json.loads(config['ServiceSpecific']['computersToWake'])
-        self.wakeOnLanPort = int(config['ServiceSpecific']['wakeOnLanPort'])
-
     def initialize(self):
+        self.computersToWake = json.loads(self.config['computersToWake'])
+        self.wakeOnLanPort = int(self.config['wakeOnLanPort'])
+
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 
     def handleStateChangeNotification(self, stateChangeNotification):

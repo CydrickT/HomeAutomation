@@ -17,18 +17,14 @@ MUSIC_END = pygame.USEREVENT+1
 
 class MusicManagerService(Service):
 
-    def __init__(self, core):
-        self.core = core
-        config = configparser.ConfigParser()
-        config.read('C:\\Users\\cydtr\\PycharmProjects\\HomeAutomation\\services\\musicmanagementservice\\MusicManagerService.config')
-        self.music_playlist = json.loads(config['ServiceSpecific']['MusicPlaylist'])
-        self.volume_percent_increment = float(config['ServiceSpecific']['VolumePercentIncrement'])
-        self.volume_initial_percent = float(config['ServiceSpecific']['VolumeInitialPercent'])
+    def initialize(self):
+        self.music_playlist = json.loads(self.config['MusicPlaylist'])
+        self.volume_percent_increment = float(self.config['VolumePercentIncrement'])
+        self.volume_initial_percent = float(self.config['VolumeInitialPercent'])
         self.music_playing = False
         self.volume_percent = self.volume_initial_percent
         self.song_index = 0
 
-    def initialize(self):
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChange)
         self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
         mixer.init()
@@ -50,13 +46,15 @@ class MusicManagerService(Service):
 
     def play(self):
         self.music_playing = True
-        mixer.music.set_endevent(MUSIC_END)
         self.set_volume(self.volume_initial_percent)
         self.start_song(self.music_playlist[self.song_index])
+
         monitoring_thread = threading.Thread(target=self.start_next_song_monitoring)
         monitoring_thread.start()
 
     def start_next_song_monitoring(self):
+        mixer.music.set_endevent(MUSIC_END)
+        pygame.event.clear()
         while self.music_playing:
             for event in pygame.event.get():
                 if event.type == MUSIC_END:

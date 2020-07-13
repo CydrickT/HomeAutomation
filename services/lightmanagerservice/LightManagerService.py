@@ -10,16 +10,13 @@ from topics.generalstate.GeneralStateType import GeneralStateType
 
 class LightManagerService(Service):
 
-    def __init__(self, core):
-        config = configparser.ConfigParser()
-        config.read('LightManagerService.config')
-        self.hue_bridge_IP = json.loads(config['ServiceSpecific']['HueBridgeIp'])
-        self.hue_bridge_username = json.loads(config['ServiceSpecific']['HueBridgeUsername'])
-        self.lights_group_name = json.loads(config['ServiceSpecific']['GroupName'])
-        self.daytime_scene_name = json.loads(config['ServiceSpecific']['DaytimeSceneName'])
-        self.nighttime_scene_name = json.loads(config['ServiceSpecific']['NighttimeSceneName'])
-
     def initialize(self):
+        self.hue_bridge_IP = self.config['HueBridgeIp']
+        self.hue_bridge_username = self.config['HueBridgeUsername']
+        self.lights_group_name = self.config['GroupName']
+        self.daytime_scene_name = self.config['DaytimeSceneName']
+        self.nighttime_scene_name = self.config['NighttimeSceneName']
+
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 
     def handleStateChangeNotification(self, state_change_notification):
@@ -78,14 +75,14 @@ class LightManagerService(Service):
         if resp.status_code != 200:
             raise Exception('GET failed: ' + resp.status_code)
         self.core.logger.log("Response on GET request is " + str(resp.status_code) + ":\n" + str(resp.json()))
-        return resp.json();
+        return resp.json()
 
     def apiPut(self, ip, username, request, content):
         url = 'http://' + ip + '/api/' + username + '/' + request
         jsoncontent = json.dumps(content)
         self.core.logger.log("Doing PUT request on " + url + " with JSON " + str(jsoncontent))
-        resp = request.put(url, jsoncontent)
+        resp = requests.put(url, jsoncontent)
         if resp.status_code != 200:
             raise Exception('GET failed: ' + resp.status_code)
         self.core.logger.log("Response on PUT request is " + str(resp.status_code) + ":\n" + str(resp.json()))
-        return resp.json();
+        return resp.json()

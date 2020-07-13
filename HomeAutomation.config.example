@@ -1,0 +1,23 @@
+#[button=services.buttoninputservice.ButtonInputService.ButtonInputService]
+#ButtonUpGpioId=10
+#ButtonDownGpioId=12
+
+[commands=services.commandinterpreterservice.CommandInterpreterService.CommandInterpreterService]
+
+[lights=services.lightmanagerservice.LightManagerService.LightManagerService]
+HueBridgeIP=192.168.1.10
+HueBridgeUsername=xjMZ8F9TNSAIoVZhAVUDYV8RGzrk5Mxil69yYngx
+GroupName=Bedroom
+DaytimeSceneName=Daytime
+NighttimeSceneName=Nighttime
+
+[music=services.musicmanagementservice.MusicManagerService.MusicManagerService]
+MusicPlaylist=["C:\\Users\\Me\\Music_One.mp3", "C:\\Users\\Me\\Music_Two.mp3"]
+VolumePercentIncrement=0.1
+VolumeInitialPercent=0.3
+
+[terminal=services.terminalinputservice.TerminalInputService.TerminalInputService]
+
+#[wol=services.wakeonlanmanagerservice.WakeOnLanManagerService.WakeOnLanManagerService]
+#computersToWake=[{'macAddressToWake':'AA:BB:CC:DD:EE:FF', 'broadcastAddress':'192.168.1.255'}]
+#wakeOnLanPort=9

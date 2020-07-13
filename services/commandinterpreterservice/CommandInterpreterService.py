@@ -11,8 +11,7 @@ from topics.modifierstate.ModifierType import ModifierType
 
 class CommandInterpreterService(Service):
 
-    def __init__(self, core):
-        self.core: Final = core
+    def __init__(self):
         self.state = GeneralStateType.GetOutOfBed
 
     def initialize(self):

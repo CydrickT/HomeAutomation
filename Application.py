@@ -1,4 +1,5 @@
 import configparser
+import sys
 
 from core.Core import Core
 from services.commandinterpreterservice.CommandInterpreterService import CommandInterpreterService
@@ -13,16 +14,12 @@ class Application:
     def __init__(self):
 
         config = configparser.ConfigParser()
-        configuration = config.read('HomeAutomation.config')
+        config.read(sys.argv[1])
 
-        self.__core = Core(configuration)
-
-        #self.__core.serviceManager.addService(LightManagerService(self.__core))
-        self.__core.serviceManager.addService(TerminalInputService(self.__core))
-        self.__core.serviceManager.addService(CommandInterpreterService(self.__core))
-        self.__core.serviceManager.addService(MusicManagerService(self.__core))
-        #self.__core.serviceManager.addService(WakeOnLanManagerService(self.__core))
-
+        self.__core = Core(config)
+        self.__core.serviceManager.initializeServices()
         self.__core.serviceManager.startServices()
 
+
 app = Application()
+
