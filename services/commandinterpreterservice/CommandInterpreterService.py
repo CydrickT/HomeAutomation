@@ -11,10 +11,8 @@ from topics.modifierstate.ModifierType import ModifierType
 
 class CommandInterpreterService(Service):
 
-    def __init__(self):
-        self.state = GeneralStateType.GetOutOfBed
-
     def initialize(self):
+        self.state = GeneralStateType.GetOutOfBed
         self.core.dataRouter.subscribe(ButtonInputCommand, self.handleButtonInput)
 
     # States:

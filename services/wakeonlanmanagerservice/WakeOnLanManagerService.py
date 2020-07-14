@@ -13,7 +13,7 @@ class WakeOnLanManagerService(Service):
 
     def initialize(self):
         self.computersToWake = json.loads(self.config['computersToWake'])
-        self.wakeOnLanPort = int(self.config['wakeOnLanPort'])
+        self.wakeOnLanPort = self.config.getint('wakeOnLanPort')
 
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 

@@ -19,8 +19,8 @@ class MusicManagerService(Service):
 
     def initialize(self):
         self.music_playlist = json.loads(self.config['MusicPlaylist'])
-        self.volume_percent_increment = float(self.config['VolumePercentIncrement'])
-        self.volume_initial_percent = float(self.config['VolumeInitialPercent'])
+        self.volume_percent_increment = self.config.getfloat('VolumePercentIncrement')
+        self.volume_initial_percent = self.config.getfloat('VolumeInitialPercent')
         self.music_playing = False
         self.volume_percent = self.volume_initial_percent
         self.song_index = 0
