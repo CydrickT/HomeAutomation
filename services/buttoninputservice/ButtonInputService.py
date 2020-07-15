@@ -14,75 +14,108 @@ class ButtonInputService(Service):
     def initialize(self):
         self.button_up_gpio_id = self.config.getint('ButtonUpGpioId')
         self.button_down_gpio_id = self.config.getint('ButtonDownGpioId')
-        self.shortToLongThresholdInSeconds = self.config.getfloat('ShortToLongThresholdInSeconds')
+
+        self.button_state_manager = ButtonStateManager(self.config.getfloat('ShortToLongThresholdInSeconds'))
 
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.button_up_gpio_id, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.button_down_gpio_id, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     def start(self):
-        upCurrentlyPressed = False
-        downCurrentlyPressed = False
-        signalSent = False
-        timeDown = None
+
         while True:
-            upPressed = False
-            downPressed = False
+            time.sleep(0.01)
+            self.button_state_manager.resetCycle()
+
             if GPIO.input(self.button_up_gpio_id) == GPIO.HIGH:
-                upPressed = True
+                self.button_state_manager.up_currently_pressed = True
             if GPIO.input(self.button_down_gpio_id) == GPIO.HIGH:
-                downPressed = True
+                self.button_state_manager.down_currently_pressed = True
 
-            if upPressed:  # TODO Move this condition
-                if not upCurrentlyPressed and not signalSent:
-                    # New Up pressed. Resetting time and registering that it's currently down.
-
-                    upCurrentlyPressed = True
-                    timeDown = datetime.now()
-
-            if downPressed:  # TODO Move this condition.
-                if not downCurrentlyPressed and not signalSent:
-                    # New Up pressed. Resetting time and registering that it's currently down.
-                    downCurrentlyPressed = True
-                    timeDown = datetime.now()
-
-            if not signalSent:
-                if timeDown + timedelta(seconds=self.shortToLongThresholdInSeconds) < datetime.now():
+            if not self.button_state_manager.signalSent:
+                if self.button_state_manager.isConsideredLongPress():
                     # We have crossed the short to long threshold. It's now considered a long press.
                     buttonInputType = None
-                    if upCurrentlyPressed and downCurrentlyPressed:
+                    if self.button_state_manager.bothButtonsPreviouslyPressed():
                         buttonInputType = ButtonInputType.UpDownLong
-                    elif upCurrentlyPressed:
+                    elif self.button_state_manager.up_previously_pressed:
                         buttonInputType = ButtonInputType.UpLong
-                    elif downCurrentlyPressed:
+                    elif self.button_state_manager.down_previously_pressed:
                         buttonInputType = ButtonInputType.DownLong
 
                     self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
-                    signalSent = True
+                    self.button_state_manager.signalSent = True
 
-                elif upCurrentlyPressed and not upPressed:
+                elif self.button_state_manager.upRecentlyReleased():
                     # Up was recently released, but was less than threshold. Considered a short button press.
                     buttonInputType = ButtonInputType.UpShort
-                    if downCurrentlyPressed:
+                    if self.button_state_manager.down_previously_pressed:
                         # Was a short 2-button input
                         buttonInputType = ButtonInputType.UpDownShort
 
                     self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
-                    signalSent = True
+                    self.button_state_manager.signalSent = True
 
-                elif downCurrentlyPressed and not downPressed:
+                elif self.button_state_manager.downRecentlyReleased():
                     # Down was recently released, but was less than threshold. Considered a short button press.
                     buttonInputType = ButtonInputType.DownShort
-                    if upCurrentlyPressed:
+                    if self.button_state_manager.up_previously_pressed:
                         # Was a short 2-button input
                         buttonInputType = ButtonInputType.UpDownShort
 
                     self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
-                    signalSent = True
+                    self.button_state_manager.signalSent = True
 
-            if not upPressed and not downPressed:
-                # Waiting until both buttons are released to fully reset everything.
-                signalSent = False
-                timedown = None
 
-            time.sleep(0.01)
+
+class ButtonStateManager:
+
+    def __init__(self, short_to_long_threshold_in_seconds):
+        self.up_previously_pressed = False
+        self.down_previously_pressed = False
+        self.up_currently_pressed = False
+        self.down_currently_pressed = False
+        self.signalSent = False
+        self.timeDown = None
+        self.__short_to_long_threshold_in_seconds__ = short_to_long_threshold_in_seconds
+
+    def resetCycle(self):
+
+        if self.upRecentlyPressed() and not self.signalSent:
+            self.timeDown = datetime.now()
+
+        if self.downRecentlyPressed() and not self.signalSent:
+            self.timeDown = datetime.now()
+
+        if not self.up_currently_pressed and not self.down_currently_pressed and self.signalSent:
+            # Waiting until both buttons are released to fully reset everything.
+            self.signalSent = False
+            self.timeDown = None
+
+        self.up_previously_pressed = self.up_currently_pressed
+        self.down_previously_pressed = self.down_currently_pressed
+
+        self.up_currently_pressed = False
+        self.down_currently_pressed = False
+
+    def isConsideredLongPress(self):
+        return self.timeDown + timedelta(seconds=self.__short_to_long_threshold_in_seconds__) < datetime.now()
+
+    def upRecentlyPressed(self):
+        return self.up_currently_pressed and not self.up_previously_pressed
+
+    def downRecentlyPressed(self):
+        return self.down_currently_pressed and not self.down_previously_pressed
+
+    def upRecentlyReleased(self):
+        return not self.up_currently_pressed and self.up_previously_pressed
+
+    def downRecentlyReleased(self):
+        return not self.down_currently_pressed and self.down_previously_pressed
+
+    def bothButtonsCurrentlyPressed(self):
+        return self.up_currently_pressed and self.down_currently_pressed
+
+    def bothButtonsPreviouslyPressed(self):
+        return self.up_currently_pressed and self.down_currently_pressed
+
