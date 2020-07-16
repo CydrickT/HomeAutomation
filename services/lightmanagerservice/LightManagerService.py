@@ -20,7 +20,7 @@ class LightManagerService(Service):
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 
     def handleStateChangeNotification(self, state_change_notification):
-        if state_change_notification.general_state_type == GeneralStateType.SleepPreparation:
+        if state_change_notification.general_state_type == GeneralStateType.SleepPreparation or state_change_notification.general_state_type == GeneralStateType.TrueSleep:
             groupId = self.getGroupIdFromGroupName(self.hue_bridge_IP, self.hue_bridge_username, self.lights_group_name)
             self.turnOnOffGroup(self.hue_bridge_IP, self.hue_bridge_username, groupId, False)
         elif state_change_notification.general_state_type == GeneralStateType.GetOutOfBed or state_change_notification.general_state_type == GeneralStateType.NightEmergency:

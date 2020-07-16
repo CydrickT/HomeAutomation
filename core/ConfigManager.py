@@ -17,3 +17,5 @@ class ConfigManager:
         for service in services.values():
             if service.id in configuration_map:
                 service.config = configuration_map[service.id]
+
+

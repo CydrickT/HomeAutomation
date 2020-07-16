@@ -30,7 +30,10 @@ class CommandInterpreterService(Service):
             self.core.logger.log('Next state: ' + str(self.state))
             self.core.dataRouter.publish(GeneralStateChangeNotification(self.state))
         elif buttonInput.button_input_type == ButtonInputType.UpDownLong:
-            self.state = GeneralStateType.NightEmergency
+            if self.state == GeneralStateType.NightEmergency:
+                self.state = self.getForwardMovingState(self.state)
+            else:
+                self.state = GeneralStateType.NightEmergency
             self.core.logger.log('Next state: ' + str(self.state))
             self.core.dataRouter.publish(GeneralStateChangeNotification(self.state))
         elif buttonInput.button_input_type == ButtonInputType.UpShort:

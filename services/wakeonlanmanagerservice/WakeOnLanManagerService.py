@@ -24,6 +24,7 @@ class WakeOnLanManagerService(Service):
 
     def wakeOnLan(self, mac_address, broadcast_ip_address):
         # Construct 6 byte hardware address
+        self.core.logger.log("Waking up PC: " + mac_address)
         add_oct = mac_address.split(':')
 
         hwa = struct.pack('BBBBBB', int(add_oct[0], 16),
