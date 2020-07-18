@@ -1,5 +1,3 @@
-from typing import Final
-
 from core.Service import Service
 from topics.buttoninput.ButtonInputCommand import ButtonInputCommand
 from topics.buttoninput.ButtonInputType import ButtonInputType

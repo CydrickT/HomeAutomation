@@ -1,6 +1,10 @@
-#[button=services.buttoninputservice.ButtonInputService.ButtonInputService]
-#ButtonUpGpioId=10
-#ButtonDownGpioId=12
+[button=services.buttoninputservice.ButtonInputService.ButtonInputService]
+ButtonUpGpioId=10
+ButtonDownGpioId=12
+ShortToLongThresholdInSeconds=0.750
+EnableLightFeedback=True
+LightUpGpioId=11
+LightDownGpioId=13
 
 [commands=services.commandinterpreterservice.CommandInterpreterService.CommandInterpreterService]
 

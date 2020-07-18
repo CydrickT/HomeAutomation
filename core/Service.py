@@ -1,6 +1,3 @@
-from typing import Final
-import os
-
 
 class Service:
 

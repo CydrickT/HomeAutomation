@@ -17,9 +17,22 @@ class ButtonInputService(Service):
 
         self.button_state_manager = ButtonStateManager(self.config.getfloat('ShortToLongThresholdInSeconds'))
 
+        self.enableLightFeedback = self.config.getboolean('EnableLightFeedback')
+        self.light_up_gpio_id = self.config.getint('LightUpGpioId')
+        self.light_down_gpio_id = self.config.getint('LightDownGpioId')
+
+        self.setupBoard()
+
+
+    def setupBoard(self):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.button_up_gpio_id, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.button_down_gpio_id, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+        if self.enableLightFeedback:
+            GPIO.setup(self.light_up_gpio_id, GPIO.OUT, initial=GPIO.LOW)
+            GPIO.setup(self.light_down_gpio_id, GPIO.OUT, initial=GPIO.LOW)
+
 
     def start(self):
 
@@ -35,37 +48,61 @@ class ButtonInputService(Service):
             if not self.button_state_manager.signalSent:
                 if self.button_state_manager.isConsideredLongPress():
                     # We have crossed the short to long threshold. It's now considered a long press.
-                    buttonInputType = None
-                    if self.button_state_manager.bothButtonsPreviouslyPressed():
-                        buttonInputType = ButtonInputType.UpDownLong
-                    elif self.button_state_manager.up_previously_pressed:
-                        buttonInputType = ButtonInputType.UpLong
-                    elif self.button_state_manager.down_previously_pressed:
-                        buttonInputType = ButtonInputType.DownLong
-
-                    self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
-                    self.button_state_manager.signalSent = True
+                    self.longPressDetected()
 
                 elif self.button_state_manager.upRecentlyReleased():
                     # Up was recently released, but was less than threshold. Considered a short button press.
-                    buttonInputType = ButtonInputType.UpShort
-                    if self.button_state_manager.down_previously_pressed:
-                        # Was a short 2-button input
-                        buttonInputType = ButtonInputType.UpDownShort
-
-                    self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
-                    self.button_state_manager.signalSent = True
+                    self.shortUpReleased()
 
                 elif self.button_state_manager.downRecentlyReleased():
                     # Down was recently released, but was less than threshold. Considered a short button press.
-                    buttonInputType = ButtonInputType.DownShort
-                    if self.button_state_manager.up_previously_pressed:
-                        # Was a short 2-button input
-                        buttonInputType = ButtonInputType.UpDownShort
+                    self.shortDownReleased()
+            else:
+                self.setLightState(False, False)
 
-                    self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
-                    self.button_state_manager.signalSent = True
+    def longPressDetected(self):
+        buttonInputType = None
 
+        if self.button_state_manager.bothButtonsPreviouslyPressed():
+            buttonInputType = ButtonInputType.UpDownLong
+            self.setLightState(True, True)
+        elif self.button_state_manager.up_previously_pressed:
+            buttonInputType = ButtonInputType.UpLong
+            self.setLightState(True, False)
+        elif self.button_state_manager.down_previously_pressed:
+            buttonInputType = ButtonInputType.DownLong
+            GPIO.output(self.light_down_gpio_id, GPIO.HIGH)
+            self.setLightState(False, True)
+
+        self.sendSignal(buttonInputType)
+
+    def shortUpReleased(self):
+        buttonInputType = ButtonInputType.UpShort
+        if self.button_state_manager.down_previously_pressed:
+            # Was a short 2-button input
+            buttonInputType = ButtonInputType.UpDownShort
+
+        self.sendSignal(buttonInputType)
+
+    def shortDownReleased(self):
+        buttonInputType = ButtonInputType.DownShort
+        if self.button_state_manager.up_previously_pressed:
+            # Was a short 2-button input
+            buttonInputType = ButtonInputType.UpDownShort
+
+        self.sendSignal(buttonInputType)
+
+    def sendSignal(self, buttonInputType):
+        self.core.dataRouter.publish(ButtonInputCommand(buttonInputType))
+        self.button_state_manager.signalSent = True
+
+    def setLightState(self, lightUpOn, lightDownOn):
+        if self.enableLightFeedback:
+            lights = (self.light_up_gpio_id, self.light_down_gpio_id)
+            upValue = GPIO.HIGH if lightUpOn else GPIO.LOW
+            downValue = GPIO.HIGH if lightDownOn else GPIO.LOW
+            values = (upValue, downValue)
+            GPIO.output(lights, values)
 
 
 class ButtonStateManager:
@@ -99,7 +136,7 @@ class ButtonStateManager:
         self.down_currently_pressed = False
 
     def isConsideredLongPress(self):
-        return self.timeDown + timedelta(seconds=self.__short_to_long_threshold_in_seconds__) < datetime.now()
+        return self.timeDown is not None and self.timeDown + timedelta(seconds=self.__short_to_long_threshold_in_seconds__) < datetime.now()
 
     def upRecentlyPressed(self):
         return self.up_currently_pressed and not self.up_previously_pressed

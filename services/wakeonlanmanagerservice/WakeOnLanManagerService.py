@@ -18,7 +18,7 @@ class WakeOnLanManagerService(Service):
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
 
     def handleStateChangeNotification(self, stateChangeNotification):
-        if stateChangeNotification == GeneralStateType.GetOutOfBed:
+        if stateChangeNotification.general_state_type == GeneralStateType.GetOutOfBed:
             for computerToWake in self.computersToWake:
                 self.wakeOnLan(computerToWake['macAddressToWake'], computerToWake['broadcastAddress'])
 
