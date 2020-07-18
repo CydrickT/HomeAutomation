@@ -57,7 +57,7 @@ class ButtonInputService(Service):
                 elif self.button_state_manager.downRecentlyReleased():
                     # Down was recently released, but was less than threshold. Considered a short button press.
                     self.shortDownReleased()
-            else:
+            elif self.button_state_manager.bothButtonsCurrentlyReleased():
                 self.setLightState(False, False)
 
     def longPressDetected(self):
@@ -152,6 +152,9 @@ class ButtonStateManager:
 
     def bothButtonsCurrentlyPressed(self):
         return self.up_currently_pressed and self.down_currently_pressed
+
+    def bothButtonsCurrentlyReleased(self):
+        return not self.up_currently_pressed and not self.down_currently_pressed
 
     def bothButtonsPreviouslyPressed(self):
         return self.up_currently_pressed and self.down_currently_pressed
