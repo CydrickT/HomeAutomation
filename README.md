@@ -1,7 +1,7 @@
 # Introduction
 This is an home automation project for the nightstand. It integrates Raspberry Pi Audio, Philips Hue and PC's Wake-On-Lan capabilities. It's designed to be extensible.
 
-This is a project that I've done over the summer to teach myself about Python, electronic circuits and general system integration. Coming from a Software Engineering background, there might be better ways to solve some electronic-related challenges.
+This is a project that I've done over the summer to teach myself about Python, electronic circuits and general system integration. I'm from a Software Engineering background, so there might be better ways to solve some electronic-related challenges.
 
 Feel free to submit pull requests.
 
