@@ -9,7 +9,7 @@
 ### WakeOnLanManagerService
 # System Configuration
 ## Wake-On-Lan (WOL)
-In order for WOL to work, the computer needs to be configured to do so. This might require extra steps depending on your motherboard and OS. Using my setup, I had to modify both my Windows settings and my BIOS:
+In order for WOL to work, the computer needs to be configured to do so. This might require extra steps depending on your motherboard and OS. Using my setup, I had to modify both my Windows settings and my BIOS
 ### Windows Configuration
 In "Device Manager", select "Network Adapters" and double-click on your network adapter. In the tab "Power Management", make sure you've checked "Allow this device to wake the computer". If you have an Intel network card, click on the "Advanced" tab, select "Wake on Magic Packet" and select the value "Enabled". If you do not see this option, it might be necessary to download the latest Intel Network Adapters from [here](https://downloadcenter.intel.com/download/25016/Ethernet-Intel-Network-Adapter-Driver-for-Windows-10?product=82186).
 
@@ -17,3 +17,6 @@ In "Power & Sleep Settings", click on "Additional Power Settings". Then, in "Pow
 
 ### BIOS Configuration
 Consult your motherboard guide on how to turn on WOL. For instance, for an Asus motherboard, you have to go in "Advanced > APM Configuration", set "ErP Ready" to "Disabled" and "Power On By PCI-E/PCI" to "Enabled".
+
+## Philips Hue
+In order to use the Philips Hue Bridge to connect to the lights, a username needs to be generated. This username looks like `1028d66426293e821ecfd9ef1a0731df`. In order to generate a new one go to `https://<bridge ip address>/debug/clip.html`. In "URL", enter `/api` and in "Message Body", enter `{"devicetype":"HomeAutomation#Instance"}` (The device type can be customzied as desired). Click on the blue physical button on the Philips Hue Bridge, then quickly click on "Post" in the webpage. The "Command Respose" should display the username.
