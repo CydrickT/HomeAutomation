@@ -20,9 +20,9 @@ class WakeOnLanManagerService(Service):
     def handleStateChangeNotification(self, stateChangeNotification):
         if stateChangeNotification.general_state_type == GeneralStateType.GetOutOfBed:
             for computerToWake in self.computersToWake:
-                self.wakeOnLan(computerToWake['macAddressToWake'], computerToWake['broadcastAddress'])
+                self.wakeOnLan(computerToWake['macAddressToWake'], computerToWake['ipAddress'])
 
-    def wakeOnLan(self, mac_address, broadcast_ip_address):
+    def wakeOnLan(self, mac_address, ip_address):
         # Construct 6 byte hardware address
         self.core.logger.log("Waking up PC: " + mac_address)
         add_oct = mac_address.split(':')
@@ -38,5 +38,5 @@ class WakeOnLanManagerService(Service):
 
         soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         soc.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        soc.sendto(msg, (broadcast_ip_address, self.wakeOnLanPort))
+        soc.sendto(msg, (ip_address, self.wakeOnLanPort))
         soc.close()

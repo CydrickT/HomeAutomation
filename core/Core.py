@@ -7,7 +7,7 @@ from core.ServiceManager import ServiceManager
 class Core:
     def __init__(self, config):
         self.logger = Logger()
-        self.dataRouter = DataRouter()
+        self.dataRouter = DataRouter(self)
         self.serviceManager = ServiceManager(self, config)
         self.configManager = ConfigManager(config, self.serviceManager.services)
 
