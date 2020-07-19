@@ -1,10 +1,12 @@
-# Services
-## ButtonInputService
-## CommandInterpreterService
-## LightManagerService
-## MusicManagerService
-## TerminalInputService
-## WakeOnLanManagerService
+# Introduction
+# Architecture
+## Services
+### ButtonInputService
+### CommandInterpreterService
+### LightManagerService
+### MusicManagerService
+### TerminalInputService
+### WakeOnLanManagerService
 # System Configuration
 ## Wake-On-Lan (WOL)
 In order for WOL to work, the computer needs to be configured to do so. This might require extra steps depending on your motherboard and OS. Using my setup, I had to modify both my Windows settings and my BIOS:
