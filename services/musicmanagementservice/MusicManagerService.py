@@ -29,7 +29,6 @@ class MusicManagerService(Service):
         self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
         mixer.init()
         pygame.init()
-        print("Music Manager Service: Initialization Complete")
 
     def handleStateChange(self, state_change_notification):
         if state_change_notification.general_state_type == GeneralStateType.SleepPreparation:
