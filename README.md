@@ -1,4 +1,10 @@
 # Introduction
+This is an home automation project for the nightstand. It integrates Raspberry Pi Audio, Philips Hue and PC's Wake-On-Lan capabilities. It's designed to be extensible.
+
+This is a project that I've done over the summer to teach myself about Python, electronic circuits and general system integration. Coming from a Software Engineering background, there might be better ways to solve some electronic-related challenges.
+
+Feel free to submit pull requests.
+
 # Components
 * 1x Raspberry Pi 3 model B
 * 1x Project Box ([Example](https://www.amazon.ca/gp/product/B07D23BF7Y/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1))
