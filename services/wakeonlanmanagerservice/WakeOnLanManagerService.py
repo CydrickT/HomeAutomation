@@ -34,7 +34,7 @@ class WakeOnLanManagerService(Service):
                           int(add_oct[4], 16),
                           int(add_oct[5], 16))
 
-        msg = '\xff' * 6 + hwa * 16
+        msg = b'\xff' * 6 + hwa * 16
 
         soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         soc.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
