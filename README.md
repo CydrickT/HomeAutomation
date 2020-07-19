@@ -1,5 +1,16 @@
 # Introduction
-# Architecture
+# Components
+* 1x Raspberry Pi 3 model B
+* 1x Breadboard
+* 1x Project Box ([Example](https://www.amazon.ca/gp/product/B07D23BF7Y/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1))
+* 2x Buttons. I've used [5v buttons with lights](https://www.amazon.ca/Resistor-Assorted-Resistors-Assortment-Experiments/dp/B07L851T3V/ref=sr_1_1?dchild=1&keywords=1280+Pieces+64+Values+Resistor+Kit%2C+1%25+Assorted+Resistors+1+Ohm-10M+Ohm+1%2F4W+Metal+Film+Resistors+Assortment+with+Storage+Box+for+DIY+Projects+and+Experiments&qid=1595167145&sr=8-1) for this project. Circuit architecture & software configuration might differ if the selected lights are different.
+* 2x 2.2k Ohm Resistor. ([Example](https://www.amazon.ca/gp/product/B07L851T3V/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1))
+* 1x Small Breadboard. ([Example](https://www.amazon.ca/Breadboard-Solderless-Prototype-PCB-Board/dp/B07589R1Q3/ref=sr_1_8?dchild=1&keywords=breadboard&qid=1595167198&sr=8-8))
+* 1x Breadboard Jumper Wire Kit with Male-To-Female and Male-To-Male wires. ([Example](https://www.amazon.ca/Elegoo-120pcs-Multicolored-Breadboard-arduino/dp/B01EV70C78/ref=pd_bxgy_img_2/140-6625145-0927353?_encoding=UTF8&pd_rd_i=B01EV70C78&pd_rd_r=f6e65db0-0893-4511-a383-565f57ca271e&pd_rd_w=YyDz9&pd_rd_wg=Dxsw3&pf_rd_p=5b9fb149-eaf1-46dd-9884-d34ba47b0e7b&pf_rd_r=N99AVNTH7K4D83TTTH9W&psc=1&refRID=N99AVNTH7K4D83TTTH9W))
+* 1x Audio Extension Cable. ([Example](https://www.amazon.ca/Headphone-Extension-Compatible-Earphone-Microphone/dp/B06XCSFQ2N/ref=sr_1_10?dchild=1&keywords=audio+extension&qid=1595167379&sr=8-10))
+* Optional: 1x HDMI to VGA with Audio converter ([Example](https://www.amazon.ca/Rankie-Adapter-3-5mm-Audio-Black/dp/B00ZMV7RL2/ref=sr_1_3?crid=3OSR1A83XPWH5&dchild=1&keywords=hdmi+to+vga+with+audio&qid=1595166982&sprefix=hdmi+to+vga+with+%2Caps%2C147&sr=8-3))
+* Optional: 1x Multimeter. ([Example](https://www.amazon.ca/AstroAI-Digital-Multimeter-2000Counts-Voltage/dp/B01ISAMUA6/ref=sr_1_2_sspa?dchild=1&keywords=multimeter&qid=1595167451&sr=8-2-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFDNFY1SlM4TEFTVkImZW5jcnlwdGVkSWQ9QTA4NjA2MjE1NFQ4NURWU1RBSVcmZW5jcnlwdGVkQWRJZD1BMDU4MDI3MDFFUU9ESUpaODMwUkUmd2lkZ2V0TmFtZT1zcF9hdGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl))
+# Software Architecture
 ## Services
 ### ButtonInputService
 ### CommandInterpreterService
@@ -7,6 +18,7 @@
 ### MusicManagerService
 ### TerminalInputService
 ### WakeOnLanManagerService
+# Circuit Architecture
 # System Configuration
 ## Wake-On-Lan (WOL)
 In order for WOL to work, the computer needs to be configured to do so. This might require extra steps depending on your motherboard and OS. Using my setup, I had to modify both my Windows settings and my BIOS
