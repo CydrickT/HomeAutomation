@@ -1,7 +1,6 @@
 # Introduction
 # Components
 * 1x Raspberry Pi 3 model B
-* 1x Breadboard
 * 1x Project Box ([Example](https://www.amazon.ca/gp/product/B07D23BF7Y/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1))
 * 2x Buttons. I've used [5v buttons with lights](https://www.amazon.ca/Resistor-Assorted-Resistors-Assortment-Experiments/dp/B07L851T3V/ref=sr_1_1?dchild=1&keywords=1280+Pieces+64+Values+Resistor+Kit%2C+1%25+Assorted+Resistors+1+Ohm-10M+Ohm+1%2F4W+Metal+Film+Resistors+Assortment+with+Storage+Box+for+DIY+Projects+and+Experiments&qid=1595167145&sr=8-1) for this project. Circuit architecture & software configuration might differ if the selected lights are different.
 * 2x 2.2k Ohm Resistor. ([Example](https://www.amazon.ca/gp/product/B07L851T3V/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1))
