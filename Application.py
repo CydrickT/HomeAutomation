@@ -21,7 +21,7 @@ class Application:
             import systemd.daemon
             systemd.daemon.notify('READY=1')
             self.__core__.logger.log('Systemd notified that app is started.')
-        except Exception:
+        except ModuleNotFoundError:
             self.__core__.logger.log('Could not load systemd.daemon')
 
 
