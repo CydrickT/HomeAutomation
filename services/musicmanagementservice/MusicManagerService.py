@@ -18,6 +18,7 @@ MUSIC_END = pygame.USEREVENT+1
 class MusicManagerService(Service):
 
     def initialize(self):
+        os.environ["SDL_VIDEODRIVER"] = "dummy"
         self.music_playlist = json.loads(self.config['MusicPlaylist'])
         self.volume_percent_increment = self.config.getfloat('VolumePercentIncrement')
         self.volume_initial_percent = self.config.getfloat('VolumeInitialPercent')
@@ -28,6 +29,8 @@ class MusicManagerService(Service):
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChange)
         self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
         mixer.init()
+        pygame.display.init()
+        screen = pygame.display.set_mode((1, 1))
         pygame.init()
 
     def handleStateChange(self, state_change_notification):
