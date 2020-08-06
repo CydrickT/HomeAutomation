@@ -40,20 +40,20 @@ class TestMusicManagerService():
         while self.music_playing:
             for event in pygame.event.get():
                 if event.type == MUSIC_END:
-                    self.core.logger.log("Previous song ended. Starting new song.")
+                    print("Previous song ended. Starting new song.")
                     self.song_index += 1
                     nextSong = self.music_playlist[self.song_index % len(self.music_playlist)]
                     self.start_song(nextSong)
             time.sleep(0.1)
-        self.core.logger.log("Stopping the next song thread")
+        print("Stopping the next song thread")
 
     def start_song(self, song):
-        self.core.logger.log("Playing song: " + song)
+        print("Playing song: " + song)
         mixer.music.load(song)
         mixer.music.play()
 
     def stop(self):
-        self.core.logger.log("Stopping playing song.")
+        print("Stopping playing song.")
         self.music_playing = False
         self.song_index = 0
         mixer.music.stop()
@@ -72,7 +72,7 @@ class TestMusicManagerService():
         else:
             self.volume_percent = volume_percent
 
-        self.core.logger.log("Setting music volume to " + str(volume_percent))
+        print("Setting music volume to " + str(volume_percent))
         mixer.music.set_volume(volume_percent)
 
 TestMusicManagerService()
