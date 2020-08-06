@@ -12,7 +12,7 @@ MUSIC_END = pygame.USEREVENT+1
 
 class TestMusicManagerService():
 
-    def initialize(self):
+    def __init__(self):
         self.music_playlist = json.loads(sys.argv[1])
         self.volume_percent_increment = 0.1
         self.volume_initial_percent = 0.3
