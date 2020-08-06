@@ -23,7 +23,7 @@ class TestMusicManagerService():
 
         mixer.init()
         pygame.init()
-
+        time.sleep(10)
         self.play()
 
     def play(self):
