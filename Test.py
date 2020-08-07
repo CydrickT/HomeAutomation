@@ -35,8 +35,9 @@ class TestMusicManagerService():
         self.set_volume(self.volume_initial_percent)
         self.start_song(self.music_playlist[self.song_index])
 
-        monitoring_thread = threading.Thread(target=self.start_next_song_monitoring)
-        monitoring_thread.start()
+        self.start_next_song_monitoring()
+        #monitoring_thread = threading.Thread(target=self.start_next_song_monitoring)
+        #monitoring_thread.start()
 
     def start_next_song_monitoring(self):
         mixer.music.set_endevent(MUSIC_END)
