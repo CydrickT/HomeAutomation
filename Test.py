@@ -16,14 +16,14 @@ class TestMusicManagerService():
         print(">>>" + sys.argv[1] + "<<<")
         self.music_playlist = json.loads(sys.argv[1])
         self.volume_percent_increment = 0.1
-        self.volume_initial_percent = 0.3
+        self.volume_initial_percent = 1.0
         self.music_playing = False
         self.volume_percent = self.volume_initial_percent
         self.song_index = 0
 
         mixer.init()
         pygame.init()
-        time.sleep(10)
+        time.sleep(2)
         self.play()
 
     def play(self):
