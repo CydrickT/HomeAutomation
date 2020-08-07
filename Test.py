@@ -22,9 +22,13 @@ class TestMusicManagerService():
         self.song_index = 0
 
         mixer.init()
+        print("PYGAME INIT")
         pygame.init()
         time.sleep(2)
         self.play()
+
+        while True:
+            pass
 
     def play(self):
         self.music_playing = True
