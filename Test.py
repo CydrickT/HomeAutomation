@@ -32,7 +32,7 @@ class TestMusicManagerService():
 
     def play(self):
         self.music_playing = True
-        self.set_volume(self.volume_initial_percent)
+        self.set_volume(1.0)
         self.start_song(self.music_playlist[self.song_index])
 
         self.start_next_song_monitoring()
@@ -41,14 +41,18 @@ class TestMusicManagerService():
 
     def start_next_song_monitoring(self):
         mixer.music.set_endevent(MUSIC_END)
+        while mixer.get_busy() is None:
+            pass
         pygame.event.clear()
+
         while self.music_playing:
-            for event in pygame.event.get():
-                if event.type == MUSIC_END:
-                    print("Previous song ended. Starting new song.")
-                    self.song_index += 1
-                    nextSong = self.music_playlist[self.song_index % len(self.music_playlist)]
-                    self.start_song(nextSong)
+            if mixer.get_busy() is not None:
+                for event in pygame.event.get():
+                    if event.type == MUSIC_END:
+                        print("Previous song ended. Starting new song.")
+                        self.song_index += 1
+                        nextSong = self.music_playlist[self.song_index % len(self.music_playlist)]
+                        self.start_song(nextSong)
             time.sleep(0.1)
         print("Stopping the next song thread")
 
