@@ -23,9 +23,6 @@ class TestMusicManagerService():
         pygame.init()
         time.sleep(2)
 
-        while True:
-            pass
-
     def play(self):
         self.music_playing = True
         mixer.music.set_volume(1.0)
