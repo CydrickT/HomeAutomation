@@ -42,7 +42,8 @@ class TestMusicManagerService():
     def start_next_song_monitoring(self):
         mixer.music.set_endevent(MUSIC_END)
         while mixer.get_busy() is None:
-            pass
+            print("busy")
+
         pygame.event.clear()
 
         while self.music_playing:
