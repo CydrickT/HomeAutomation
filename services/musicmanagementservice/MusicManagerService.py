@@ -2,6 +2,7 @@ import configparser
 import json
 import threading
 import time
+import os
 
 import pygame
 import requests
@@ -27,6 +28,7 @@ class MusicManagerService(Service):
 
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChange)
         self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
+        os.putenv('DISPLAY', ':0.0')
         mixer.init()
         pygame.init()
 
