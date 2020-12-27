@@ -1,7 +1,7 @@
 #!/bin/bash
 # Installation script for Home Automation
 # Sets up a Systemd start script for the Home Automation python program
-# Usage: sudo install_startup.sh
+# Usage: sudo ./install_startup.sh
 
 CONFIGURATION_FILE_NAME="HomeAutomation.config"
 SYSTEMD_FILES_DESTINATION_PATH="/lib/systemd/system"
