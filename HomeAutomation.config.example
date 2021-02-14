@@ -5,6 +5,8 @@ ShortToLongThresholdInSeconds=0.750
 EnableLightFeedback=True
 LightUpGpioId=11
 LightDownGpioId=13
+InputLoopCycleDelayWhenPressedInSeconds=0.005
+InputLoopCycleDelayWhenNotPressedInSeconds=0.01
 
 [commands=services.commandinterpreterservice.CommandInterpreterService.CommandInterpreterService]
 

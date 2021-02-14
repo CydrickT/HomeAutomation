@@ -20,6 +20,8 @@ class ButtonInputService(Service):
         self.enableLightFeedback = self.config.getboolean('EnableLightFeedback')
         self.light_up_gpio_id = self.config.getint('LightUpGpioId')
         self.light_down_gpio_id = self.config.getint('LightDownGpioId')
+        self.input_loop_cycle_delay_when_pressed_in_seconds = self.config.getfloat('InputLoopCycleDelayWhenPressedInSeconds')
+        self.input_loop_cycle_delay_when_not_pressed_in_seconds = self.config.getfloat('InputLoopCycleDelayWhenNotPressedInSeconds')
 
         self.setupBoard()
 
@@ -37,7 +39,12 @@ class ButtonInputService(Service):
     def start(self):
 
         while True:
-            time.sleep(0.01)
+
+            if self.button_state_manager.anyButtonPressed():
+                time.sleep(self.input_loop_cycle_delay_when_pressed_in_seconds)
+            else:
+                time.sleep(self.input_loop_cycle_delay_when_not_pressed_in_seconds)
+
             self.button_state_manager.resetCycle()
 
             if GPIO.input(self.button_up_gpio_id) == GPIO.HIGH:
@@ -158,4 +165,7 @@ class ButtonStateManager:
 
     def bothButtonsPreviouslyPressed(self):
         return self.up_currently_pressed and self.down_currently_pressed
+
+    def anyButtonPressed(self):
+        return self.up_currently_pressed or self.down_currently_pressed
 
