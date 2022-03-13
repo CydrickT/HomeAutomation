@@ -7,6 +7,7 @@ class SshExecutor():
         self.username = username
         self.password = password
         self.client = paramiko.SSHClient()
+        self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.connect(self.hostname, username=self.username, password=self.password)
 
     def execute(self, command):
