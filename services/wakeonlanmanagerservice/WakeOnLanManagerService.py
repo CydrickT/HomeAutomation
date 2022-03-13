@@ -1,5 +1,6 @@
 import configparser
 import json
+import time
 
 from core.Service import Service
 import struct
@@ -21,10 +22,11 @@ class WakeOnLanManagerService(Service):
         if stateChangeNotification.general_state_type == GeneralStateType.GetOutOfBed:
             for computerToWake in self.computersToWake:
                 self.wakeOnLan(computerToWake['macAddressToWake'], computerToWake['ipAddress'])
+                time.sleep(1.0)
 
     def wakeOnLan(self, mac_address, ip_address):
         # Construct 6 byte hardware address
-        self.core.logger.log("Waking up PC: " + mac_address)
+        self.core.logger.log("Waking up PC: '" + mac_address + "' with IP: '" + ip_address + "'")
         add_oct = mac_address.split(':')
 
         hwa = struct.pack('BBBBBB', int(add_oct[0], 16),
