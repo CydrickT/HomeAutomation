@@ -11,6 +11,10 @@ if (( $EUID != 0 )) ; then
     exit
 fi
 
+echo "Installing libffi-dev"
+sudo apt install -y libffi-dev
+echo "Installed libffi-dev"
+
 ROOT_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
 PYTHON_LOC="$(which python3)"
 

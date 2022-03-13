@@ -14,7 +14,7 @@ class UnraidShutdownService(Service):
     def handleStateChangeNotification(self, state_change_notification):
         if state_change_notification.general_state_type == GeneralStateType.SleepPreparation:
             for unraidInstanceToShutdown in self.unraidInstancesToShutdown:
-                sshExecutor = SshExecutor(unraidInstanceToShutdown['hostname'], unraidInstanceToShutdown['username'], unraidInstanceToShutdown['passowrd'])
+                sshExecutor = SshExecutor(unraidInstanceToShutdown['hostname'], unraidInstanceToShutdown['username'], unraidInstanceToShutdown['password'])
                 time.sleep(1.0)
                 sshExecutor.execute("powerdown")
                 time.sleep(1.0)

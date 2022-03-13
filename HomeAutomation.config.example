@@ -28,5 +28,10 @@ VolumeInitialPercent=0.3
 [terminal=services.terminalinputservice.TerminalInputService.TerminalInputService]
 
 [wol=services.wakeonlanmanagerservice.WakeOnLanManagerService.WakeOnLanManagerService]
-computersToWake=[{"macAddressToWake":"AA:BB:CC:DD:EE:FF", "ipAddress":"192.168.1.255"}]
+computersToWake=[{"macAddressToWake":"AA:BB:CC:DD:EE:FF", "ipAd
+
+dress":"192.168.1.255"}]
 wakeOnLanPort=9
+
+[unraidshutdown=services.unraidshutdownservice.UnraidShutdownService.UnraidShutdownService]
+UnraidInstancesToShutdown=[{"hostname":"192.168.1.199", "username":"root", "password":"password"}]
