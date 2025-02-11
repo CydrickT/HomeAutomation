@@ -2,7 +2,7 @@
 Description=Bluetooth speaker agent
 
 [Service]
-ExecStart=python speaker-agent.py
+ExecStart=PYTHON_DBUS_LOC PROJECT_PATH/setup/resources/speaker-agent.py
 
 [Install]
 WantedBy=default.target

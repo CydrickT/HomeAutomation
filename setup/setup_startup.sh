@@ -4,7 +4,7 @@
 # Usage: sudo ./install_startup.sh
 
 CONFIGURATION_FILE_NAME="HomeAutomation.config"
-SYSTEMD_FILES_DESTINATION_PATH="/lib/systemd/system"
+SYSTEMD_FILES_DESTINATION_PATH="/etc/systemd/system/multi-user.target.wants"
 
 if (( $EUID != 0 )) ; then
     echo "Execute this script with sudo permissions. Exiting..."
