@@ -3,7 +3,7 @@
 # Is based on Frederic Danis script here: https://www.collabora.com/news-and-blog/blog/2022/09/02/using-a-raspberry-pi-as-a-bluetooth-speaker-with-pipewire-wireplumber/
 # Usage: sudo ./install_bluetooth_speaker.sh
 
-SYSTEMD_FILES_DESTINATION_PATH="/etc/systemd/system/multi-user.target.wants"
+SYSTEMD_FILES_DESTINATION_PATH="/etc/systemd/system"
 
 if (( $EUID != 0 )) ; then
     echo "Execute this script with sudo permissions. Exiting..."
@@ -34,8 +34,6 @@ PYTHON_DBUS_LOC="$(which python)"
 echo "Copying systemd file"
 
 rm -rf "$SYSTEMD_FILES_DESTINATION_PATH/speaker-agent.service"
-echo "Source: $ROOT_DIR/setup/resources/speaker-agent.service"
-echo "Destination: $SYSTEMD_FILES_DESTINATION_PATH"
 cp "$ROOT_DIR/setup/resources/speaker-agent.service" "$SYSTEMD_FILES_DESTINATION_PATH"
 sed -i -e "s#PYTHON_DBUS_LOC#$PYTHON_DBUS_LOC#g" "$SYSTEMD_FILES_DESTINATION_PATH/speaker-agent.service"
 sed -i -e "s#APP_DIR#$APP_DIR/setup/resources#g" "$SYSTEMD_FILES_DESTINATION_PATH/speaker-agent.service"
