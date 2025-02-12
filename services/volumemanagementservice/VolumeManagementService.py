@@ -35,7 +35,7 @@ class VolumeManagementService(Service):
     def decreaseVolume(self):
         self.set_volume(self.volume_percent - self.volume_percent_increment)
 
-    def set_volume(volume_percent):
+    def set_volume(self, volume_percent):
         if volume_percent > 1.0:
             volume_percent = 1.0
         elif volume_percent < 0:
