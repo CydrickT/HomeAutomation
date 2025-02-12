@@ -25,7 +25,6 @@ class MusicManagerService(Service):
         self.song_index = 0
 
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChange)
-        self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
         os.putenv('DISPLAY', ':0.0')
         mixer.init()
         pygame.init()
@@ -38,7 +37,7 @@ class MusicManagerService(Service):
 
     def play(self):
         self.music_playing = True
-        self.set_volume(1.0)
+        mixer.music.set_volume(1.0)
         self.start_song(self.music_playlist[self.song_index])
 
         monitoring_thread = threading.Thread(target=self.start_next_song_monitoring)

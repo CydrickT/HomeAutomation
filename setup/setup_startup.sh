@@ -15,6 +15,10 @@ echo "Installing libffi-dev"
 sudo apt install -y libffi-dev
 echo "Installed libffi-dev"
 
+echo "Installing libasound2-dev"
+sudo apt install -y libasound2-dev
+echo "Installed libasound2-dev"
+
 ROOT_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
 PYTHON_LOC="$(which python3)"
 
