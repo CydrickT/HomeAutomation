@@ -29,10 +29,10 @@ class VolumeManagementService(Service):
         elif modifier_change_notification.modifier_type == ModifierType.Decrease:
             self.decreaseVolume()
 
-    def increaseVolume():
+    def increaseVolume(self):
         self.set_volume(self.volume_percent + self.volume_percent_increment)
 
-    def decreaseVolume():
+    def decreaseVolume(self):
         self.set_volume(self.volume_percent - self.volume_percent_increment)
 
     def set_volume(volume_percent):
