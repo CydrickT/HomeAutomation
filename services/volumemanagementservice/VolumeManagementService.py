@@ -45,4 +45,4 @@ class VolumeManagementService(Service):
 
         self.core.logger.log("Setting music volume to " + str(volume_percent))
 
-        mixer.setvolume(volume_percent * 100)
+        self.mixer.setvolume(volume_percent * 100)
