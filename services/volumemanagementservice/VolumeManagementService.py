@@ -19,10 +19,6 @@ class VolumeManagementService(Service):
         self.volume_initial_percent = self.config.getfloat('VolumeInitialPercent')
         self.volume_percent = self.volume_initial_percent
         self.mixer = alsaaudio.Mixer('Master')
-
-        self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChangeNotification)
-
-    def handleStateChangeNotification(self, stateChangeNotification):
         self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
 
     def handleModifierChange(self, modifier_change_notification):
