@@ -20,6 +20,7 @@ class VolumeManagementService(Service):
         self.volume_percent = self.volume_initial_percent
         self.mixer = alsaaudio.Mixer('Master')
         self.core.dataRouter.subscribe(ModifierStateChangeNotification, self.handleModifierChange)
+        self.set_volume(self.volume_percent)
 
     def handleModifierChange(self, modifier_change_notification):
         if modifier_change_notification.modifier_type == ModifierType.Increase:
