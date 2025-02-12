@@ -20,10 +20,8 @@ class MusicManagerService(Service):
 
     def initialize(self):
         self.music_playlist = json.loads(self.config['MusicPlaylist'])
-        self.volume_percent_increment = self.config.getfloat('VolumePercentIncrement')
-        self.volume_initial_percent = self.config.getfloat('VolumeInitialPercent')
+
         self.music_playing = False
-        self.volume_percent = self.volume_initial_percent
         self.song_index = 0
 
         self.core.dataRouter.subscribe(GeneralStateChangeNotification, self.handleStateChange)
@@ -38,16 +36,9 @@ class MusicManagerService(Service):
         else:
             self.stop()
 
-    def handleModifierChange(self, modifier_change_notification):
-        if self.music_playing:
-            if modifier_change_notification.modifier_type == ModifierType.Increase:
-                self.increaseVolume()
-            elif modifier_change_notification.modifier_type == ModifierType.Decrease:
-                self.decreaseVolume()
-
     def play(self):
         self.music_playing = True
-        self.set_volume(self.volume_initial_percent)
+        self.set_volume(1.0)
         self.start_song(self.music_playlist[self.song_index])
 
         monitoring_thread = threading.Thread(target=self.start_next_song_monitoring)
@@ -76,20 +67,3 @@ class MusicManagerService(Service):
         self.music_playing = False
         self.song_index = 0
         mixer.music.stop()
-
-    def increaseVolume(self):
-        self.set_volume(self.volume_percent + self.volume_percent_increment)
-
-    def decreaseVolume(self):
-        self.set_volume(self.volume_percent - self.volume_percent_increment)
-
-    def set_volume(self, volume_percent):
-        if volume_percent > 1.0:
-            volume_percent = 1.0
-        elif volume_percent < 0:
-            volume_percent = 0
-        else:
-            self.volume_percent = volume_percent
-
-        self.core.logger.log("Setting music volume to " + str(volume_percent))
-        mixer.music.set_volume(volume_percent)
