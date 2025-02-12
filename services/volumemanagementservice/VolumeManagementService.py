@@ -11,10 +11,9 @@ from topics.generalstate.GeneralStateType import GeneralStateType
 
 import alsaaudio
 
-
 class VolumeManagementService(Service):
 
-     def initialize(self):
+    def initialize(self):
         self.volume_percent_increment = self.config.getfloat('VolumePercentIncrement')
         self.volume_initial_percent = self.config.getfloat('VolumeInitialPercent')
         self.volume_percent = self.volume_initial_percent
@@ -41,7 +40,7 @@ class VolumeManagementService(Service):
             volume_percent = 0
         else:
             self.volume_percent = volume_percent
-        
+
         self.core.logger.log("Setting music volume to " + str(volume_percent))
 
         mixer.setvolume(volume_percent * 100)
