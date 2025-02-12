@@ -9,6 +9,7 @@ import socket
 from topics.generalstate.GeneralStateChangeNotification import GeneralStateChangeNotification
 from topics.generalstate.GeneralStateType import GeneralStateType
 from topics.modifierstate.ModifierStateChangeNotification import ModifierStateChangeNotification
+from topics.modifierstate.ModifierType import ModifierType
 
 import alsaaudio
 

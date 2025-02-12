@@ -11,7 +11,6 @@ from pygame import mixer
 from core.Service import Service
 from topics.generalstate.GeneralStateChangeNotification import GeneralStateChangeNotification
 from topics.generalstate.GeneralStateType import GeneralStateType
-from topics.modifierstate.ModifierStateChangeNotification import ModifierStateChangeNotification
 from topics.modifierstate.ModifierType import ModifierType
 
 MUSIC_END = pygame.USEREVENT+1
